@@ -1,4 +1,4 @@
-import { imageRegistry } from "./src/data/images/registry.js";
+import { imageRegistry, socialImageRegistry } from "./src/data/images/registry.js";
 
 const DEFAULT_LANGUAGE = "ta";
 const VALID_CATEGORIES = new Set(["veg", "non-veg"]);
@@ -111,6 +111,7 @@ export default function eleventyConfig(config) {
     return cleanUrl.replace(new RegExp(`^/${currentLanguage}(?=/|$)`), `/${targetCode}`);
   });
   config.addFilter("imageFor", (key) => imageRegistry[key] || imageRegistry.DEFAULT_IMG || "");
+  config.addFilter("socialImageFor", (key) => socialImageRegistry[key] || socialImageRegistry.DEFAULT_IMG || "");
   config.addFilter("hasMermaid", (content) => String(content).includes("class=\"mermaid\""));
   config.addFilter("dateIso", (value) => (value ? new Date(value).toISOString().slice(0, 10) : ""));
   config.addFilter("dateDisplay", (value, locale = "en") => {

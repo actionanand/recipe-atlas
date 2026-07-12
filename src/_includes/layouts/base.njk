@@ -1,15 +1,21 @@
 {% set currentLang = langItem.code if langItem else (lang or pageLang or "ta") %}
 {% set language = languages | languageMeta(currentLang) %}
+{% set labels = ui[currentLang] or ui.en %}
 {% set currentTranslationId = translationId or page.fileSlug %}
+{% set pageTitle = (title + " | " + site.name) if title else site.name %}
+{% set pageDescription = summary or description or site.description %}
+{% set pageImage = socialImage or (cover | socialImageFor) %}
+{% set pageImageUrl = pageImage | absoluteUrl(site) %}
+{% set pageUrl = page.url | absoluteUrl(site) %}
 <!doctype html>
 <html lang="{{ currentLang }}" data-theme="system">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
-    <meta name="description" content="{{ summary or site.description }}">
-    <link rel="canonical" href="{{ page.url | absoluteUrl(site) }}">
+    <title>{{ pageTitle }}</title>
+    <meta name="description" content="{{ pageDescription }}">
+    <link rel="canonical" href="{{ pageUrl }}">
     {% for item in languages %}
       {% if translationId and collections.recipes %}
         {% set translated = collections.recipes | translationFor(translationId, item.code) %}
@@ -19,10 +25,27 @@
       {% endif %}
     {% endfor %}
     <meta property="og:type" content="{{ 'article' if isRecipePage else 'website' }}">
-    <meta property="og:title" content="{% if title %}{{ title }} | {% endif %}{{ site.name }}">
-    <meta property="og:description" content="{{ summary or site.description }}">
-    <meta property="og:url" content="{{ page.url | absoluteUrl(site) }}">
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:locale" content="{{ 'ta_IN' if currentLang == 'ta' else 'en_US' }}">
+    {% for item in languages %}
+      {% if item.code != currentLang %}<meta property="og:locale:alternate" content="{{ 'ta_IN' if item.code == 'ta' else 'en_US' }}">{% endif %}
+    {% endfor %}
+    <meta property="og:title" content="{{ pageTitle }}">
+    <meta property="og:description" content="{{ pageDescription }}">
+    <meta property="og:url" content="{{ pageUrl }}">
+    <meta property="og:image" content="{{ pageImageUrl }}">
+    <meta property="og:image:secure_url" content="{{ pageImageUrl }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ title or site.name }}">
+    {% if isRecipePage and published %}<meta property="article:published_time" content="{{ published | dateIso }}">{% endif %}
+    {% if isRecipePage and updated %}<meta property="article:modified_time" content="{{ updated | dateIso }}">{% endif %}
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ pageTitle }}">
+    <meta name="twitter:description" content="{{ pageDescription }}">
+    <meta name="twitter:image" content="{{ pageImageUrl }}">
+    <meta name="twitter:image:alt" content="{{ title or site.name }}">
     <link rel="icon" href="{{ '/favicon.ico' | url }}" sizes="any">
     <link rel="apple-touch-icon" href="{{ '/assets/images/recipe-atlas.png' | url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +60,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/styles.css' | url }}">
   </head>
   <body data-site-root="{{ '/' | url }}">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{{ labels.skipToContent }}</a>
     <header class="site-header">
       <a class="brand" href="{{ language.home | url }}" aria-label="{{ site.name }} home">
         <span class="brand-mark"><img src="{{ '/assets/images/recipe-atlas.png' | url }}" alt="" width="36" height="36"></span>
@@ -48,18 +71,18 @@
       </a>
       <button class="icon-button mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="material-symbols-rounded" aria-hidden="true">menu</span>
-        <span class="sr-only">Menu</span>
+        <span class="sr-only">{{ labels.menu }}</span>
       </button>
       <nav id="site-nav" class="site-nav" aria-label="Primary">
-        <a href="{{ language.home | url }}" {% if page.url == language.home %}aria-current="page"{% endif %}>Home</a>
-        <a href="{{ language.recipes | url }}" {% if page.url == language.recipes %}aria-current="page"{% endif %}>Recipes</a>
-        <a href="{{ language.tags | url }}" {% if page.url == language.tags %}aria-current="page"{% endif %}>Tags</a>
-        <a href="{{ language.about | url }}" {% if page.url == language.about %}aria-current="page"{% endif %}>About</a>
-        <a href="{{ language.search | url }}" {% if page.url == language.search %}aria-current="page"{% endif %}>Search</a>
+        <a href="{{ language.home | url }}" {% if page.url == language.home %}aria-current="page"{% endif %}>{{ labels.home }}</a>
+        <a href="{{ language.recipes | url }}" {% if page.url == language.recipes %}aria-current="page"{% endif %}>{{ labels.recipes }}</a>
+        <a href="{{ language.tags | url }}" {% if page.url == language.tags %}aria-current="page"{% endif %}>{{ labels.tags }}</a>
+        <a href="{{ language.about | url }}" {% if page.url == language.about %}aria-current="page"{% endif %}>{{ labels.about }}</a>
+        <a href="{{ language.search | url }}" {% if page.url == language.search %}aria-current="page"{% endif %}>{{ labels.search }}</a>
       </nav>
       <div class="header-actions">
         <label class="select-shell">
-          <span class="sr-only">Language</span>
+          <span class="sr-only">{{ labels.language }}</span>
           <select data-language-switch>
             {% for item in languages %}
               {% if isRecipePage and collections.recipes %}
@@ -73,11 +96,11 @@
           </select>
         </label>
         <label class="select-shell">
-          <span class="sr-only">Theme</span>
+          <span class="sr-only">{{ labels.theme }}</span>
           <select data-theme-switch>
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
+            <option value="system">{{ labels.system }}</option>
+            <option value="light">{{ labels.light }}</option>
+            <option value="dark">{{ labels.dark }}</option>
           </select>
         </label>
       </div>
@@ -97,12 +120,12 @@
         </span>
       </div>
       <p class="footer-copy">&copy; <span data-copyright-year data-start-year="2026">2026</span> {{ site.name }}. All rights reserved.</p>
-      <nav class="footer-links" aria-label="Footer">
+      <nav class="footer-links" aria-label="{{ labels.footer }}">
         <a href="{{ '/feed.xml' | url }}" target="_blank" rel="noopener">RSS</a>
         <a href="{{ '/sitemap.xml' | url }}" target="_blank" rel="noopener">Sitemap</a>
       </nav>
     </footer>
-    <button class="back-to-top icon-button" type="button" data-back-to-top aria-label="Back to top">
+    <button class="back-to-top icon-button" type="button" data-back-to-top aria-label="{{ labels.backToTop }}">
       <span class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_up</span>
     </button>
     <script src="{{ '/assets/js/main.js' | url }}" defer></script>

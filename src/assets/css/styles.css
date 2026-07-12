@@ -494,6 +494,7 @@ html[lang="ta"] .section-heading h1 {
 .hero-search-wrap {
   position: relative;
   max-width: 680px;
+  margin-bottom: 1rem;
 }
 
 .hero-search input {
@@ -776,6 +777,23 @@ mark {
 .prose p,
 .prose li {
   color: color-mix(in srgb, var(--text), var(--muted) 20%);
+}
+
+.author-note {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-left: 0.35rem solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.author-note h2 {
+  margin-top: 0;
+}
+
+.author-note p:last-child {
+  margin-bottom: 0;
 }
 
 .recipe-hero {

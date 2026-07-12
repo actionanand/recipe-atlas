@@ -9,3 +9,9 @@ export const imageRegistry = {
   IDLI_STEP1,
   DEFAULT_IMG,
 };
+
+export const socialImageRegistry = {
+  BIRYANI: "/assets/images/og-biryani.png",
+  IDLI: "/assets/images/og-idli.png",
+  DEFAULT_IMG: "/assets/images/og-default.png",
+};

@@ -223,6 +223,8 @@ document.querySelectorAll("[data-live-search]").forEach((container) => {
   const input = container.querySelector("input[type='search']");
   const results = container.querySelector("[data-live-search-results]");
   const lang = container.dataset.liveSearchLang || document.documentElement.lang;
+  const noMatchesLabel = container.dataset.noMatches || "No matches";
+  const unavailableLabel = container.dataset.searchUnavailable || "Search index unavailable";
   if (!input || !results) return;
 
   const closeLiveSearch = () => {
@@ -252,10 +254,10 @@ document.querySelectorAll("[data-live-search]").forEach((container) => {
             <span>${highlightLiveMatch(liveMatchSnippet(item, query), query)}</span>
           </a>
         `).join("")
-        : `<p class="live-search-empty">No matches</p>`;
+        : `<p class="live-search-empty">${escapeHtml(noMatchesLabel)}</p>`;
     } catch {
       results.hidden = false;
-      results.innerHTML = `<p class="live-search-empty">Search index unavailable</p>`;
+      results.innerHTML = `<p class="live-search-empty">${escapeHtml(unavailableLabel)}</p>`;
     }
   };
 
@@ -275,7 +277,8 @@ document.querySelectorAll("[data-live-search]").forEach((container) => {
 
 const homeSearchInput = document.querySelector("[data-live-search] input[type='search']");
 if (homeSearchInput) {
-  homeSearchInput.placeholder = "Search recipes - press /";
+  const searchContainer = homeSearchInput.closest("[data-live-search]");
+  homeSearchInput.placeholder = searchContainer?.dataset.placeholder || "Search recipes - press /";
   document.addEventListener("keydown", (event) => {
     if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey) return;
     const target = event.target;
