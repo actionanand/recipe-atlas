@@ -1,0 +1,90 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: languages
+  size: 1
+  alias: langItem
+permalink: "{{ langItem.home }}"
+lang: "{{ langItem.code }}"
+title: Home
+---
+{% set lang = langItem.code %}
+{% set langRecipes = collections.recipes | recipesForLang(lang) %}
+{% set featured = collections.recipes | featuredForLang(lang) %}
+{% set tagCounts = collections.recipes | tagCountsForLang(lang) %}
+<section class="home-hero">
+  <div class="home-hero__content">
+    <p class="eyebrow">{{ langItem.name }}</p>
+    <h1>RecipeAtlas</h1>
+    <p class="lede">{{ "தமிழ் மற்றும் ஆங்கிலத்தில் ஒழுங்குபடுத்தப்பட்ட சமையல் அறிவகம்." if lang == "ta" else "A practical recipe knowledge base in Tamil and English." }}</p>
+    <div class="hero-search-wrap" data-live-search data-live-search-lang="{{ lang }}">
+    <form class="hero-search" action="{{ langItem.search | url }}" role="search">
+      <span class="material-symbols-rounded" aria-hidden="true">search</span>
+      <input type="search" name="q" placeholder="{{ 'சமையல் தேடுக' if lang == 'ta' else 'Search recipes' }}">
+      <button type="submit" class="button">Search</button>
+    </form>
+    <div class="live-search-results" data-live-search-results hidden></div>
+    </div>
+    <div class="filter-pills" data-category-filter>
+      <button class="pill is-active" type="button" data-filter="all">All</button>
+      <button class="pill" type="button" data-filter="veg">Veg</button>
+      <button class="pill" type="button" data-filter="non-veg">Non-Veg</button>
+    </div>
+  </div>
+  {% set heroRecipe = langRecipes[0] %}
+  {% if heroRecipe and heroRecipe.data.cover %}
+    <a class="hero-feature" href="{{ heroRecipe.url | url }}">
+      <img src="{{ heroRecipe.data.cover | imageFor }}" alt="">
+      <span>{{ heroRecipe.data.title }}</span>
+    </a>
+  {% endif %}
+</section>
+
+<section class="content-band">
+  <div class="section-heading">
+    <p class="eyebrow">Latest</p>
+    <h2>{{ "புதிய சமையல்கள்" if lang == "ta" else "Latest recipes" }}</h2>
+  </div>
+  <div class="card-grid" data-filter-targets>
+    {% for recipe in langRecipes | latest(6) %}
+      {% include "components/recipe-card.njk" %}
+    {% endfor %}
+  </div>
+</section>
+
+{% if featured.length %}
+  <section class="content-band content-band--soft">
+    <div class="section-heading">
+      <p class="eyebrow">Featured</p>
+      <h2>{{ "சிறப்பு சமையல்கள்" if lang == "ta" else "Featured recipes" }}</h2>
+    </div>
+    <div class="card-grid card-grid--compact">
+      {% for recipe in featured | latest(3) %}
+        {% include "components/recipe-card.njk" %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+<section class="split-band">
+  <div class="panel">
+    <h2>{{ "சீரற்ற சமையல்" if lang == "ta" else "Random recipe" }}</h2>
+    <p>{{ "இன்றைக்கு வேறொரு சுவையை முயற்சிக்கலாம்." if lang == "ta" else "Pick a different flavor for today." }}</p>
+    <button class="button" type="button" data-random-recipe data-recipes='[{% for recipe in langRecipes %}"{{ recipe.url | url }}"{% if not loop.last %},{% endif %}{% endfor %}]'>
+      <span class="material-symbols-rounded" aria-hidden="true">shuffle</span>Random
+    </button>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>{{ "பிரபல குறிச்சொற்கள்" if lang == "ta" else "Popular tags" }}</h2>
+      <button class="icon-button" type="button" data-collapse-toggle="popular-tags" aria-expanded="true">
+        <span class="material-symbols-rounded" aria-hidden="true">expand_less</span>
+      </button>
+    </div>
+    <div class="tag-cloud" data-collapse-panel="popular-tags">
+      {% for item in tagCounts %}
+        {% if loop.index <= 12 %}<a href="{{ langItem.tags | url }}{{ item.tag | urlencode }}/">#{{ item.tag }} <span>{{ item.count }}</span></a>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

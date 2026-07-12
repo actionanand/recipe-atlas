@@ -1,0 +1,22 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.name }}</title>
+  <subtitle>{{ site.description }}</subtitle>
+  <link href="{{ "/feed.xml" | absoluteUrl(site) }}" rel="self"/>
+  <link href="{{ "/" | absoluteUrl(site) }}"/>
+  <updated>{{ collections.recipes[0].date | dateIso }}T00:00:00Z</updated>
+  <id>{{ "/" | absoluteUrl(site) }}</id>
+  {% for recipe in collections.recipes | latest(20) %}
+    <entry>
+      <title>{{ recipe.data.title }}</title>
+      <link href="{{ recipe.url | absoluteUrl(site) }}"/>
+      <updated>{{ (recipe.data.updated or recipe.data.published or recipe.date) | dateIso }}T00:00:00Z</updated>
+      <id>{{ recipe.url | absoluteUrl(site) }}</id>
+      <summary>{{ recipe.data.summary or (recipe.templateContent | excerpt(36)) }}</summary>
+    </entry>
+  {% endfor %}
+</feed>

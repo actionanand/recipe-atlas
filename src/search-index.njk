@@ -1,0 +1,23 @@
+---
+permalink: /search-index.json
+eleventyExcludeFromCollections: true
+---
+[
+{% for recipe in collections.recipes %}
+  {
+    "title": {{ recipe.data.title | json | safe }},
+    "summary": {{ (recipe.data.summary or "") | json | safe }},
+    "url": {{ (recipe.url | url) | json | safe }},
+    "lang": {{ recipe.data.lang | json | safe }},
+    "translationKey": {{ recipe.data.translationId | json | safe }},
+    "category": {{ recipe.data.category | json | safe }},
+    "tags": {{ (recipe.data.tags or []) | json | safe }},
+    "ingredients": {{ (recipe.data.ingredients | ingredientNames) | json | safe }},
+    "excerpt": {{ (recipe.templateContent | excerpt(44)) | json | safe }},
+    "published": {{ (recipe.data.published or "") | json | safe }},
+    "updated": {{ (recipe.data.updated or "") | json | safe }},
+    "mediaTitles": {{ ((recipe.data.mediaEmbeds or []) | mediaTitles) | json | safe }},
+    "body": {{ (recipe.templateContent | plainText) | json | safe }}
+  }{% if not loop.last %},{% endif %}
+{% endfor %}
+]

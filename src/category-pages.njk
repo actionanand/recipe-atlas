@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.recipeCategoryPages
+  size: 1
+  alias: categoryPage
+permalink: "{{ categoryPage.permalink }}"
+lang: "{{ categoryPage.lang }}"
+title: "Category"
+---
+{% set language = languages | languageMeta(categoryPage.lang) %}
+<section class="page-shell">
+  <div class="section-heading">
+    <p class="eyebrow">{{ language.name }}</p>
+    <h1>{{ categoryPage.category | categoryLabel }}</h1>
+    <p>{{ categoryPage.recipes.length }} recipes</p>
+  </div>
+  <div class="card-grid">
+    {% for recipe in categoryPage.recipes %}
+      {% include "components/recipe-card.njk" %}
+    {% endfor %}
+  </div>
+</section>

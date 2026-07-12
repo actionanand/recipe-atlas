@@ -1,0 +1,180 @@
+---
+layout: layouts/base.njk
+isRecipePage: true
+---
+{% set currentRecipe = collections.recipes | findByUrl(page.url) %}
+{% set recipeList = collections.recipes | recipesForLang(lang) %}
+{% set related = collections.recipes | relatedRecipes(currentRecipe) %}
+{% set coverImage = cover | imageFor %}
+<div class="reading-progress" data-reading-progress></div>
+<article class="recipe-layout">
+  <header class="recipe-hero">
+    <div>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ (languages | languageMeta(lang)).home | url }}">{{ site.name }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ (languages | languageMeta(lang)).recipes | url }}">Recipes</a>
+      </nav>
+      <p class="eyebrow">{{ category | categoryLabel }}</p>
+      <h1>{{ title }}</h1>
+      {% if summary %}<p class="lede">{{ summary }}</p>{% endif %}
+      <div class="meta-grid">
+        {% if difficulty %}<span><strong>Difficulty</strong>{{ difficulty }}</span>{% endif %}
+        {% if servings %}<span><strong>Servings</strong>{{ servings }}</span>{% endif %}
+        {% if prepTime %}<span><strong>Prep</strong>{{ prepTime }}</span>{% endif %}
+        {% if cookTime %}<span><strong>Cook</strong>{{ cookTime }}</span>{% endif %}
+        {% if totalTime %}<span><strong>Total</strong>{{ totalTime }}</span>{% endif %}
+        <span><strong>Read</strong>{{ content | readingTime }} min</span>
+      </div>
+      {% if tags %}
+        <div class="tag-row">
+          {% for tag in tags %}
+            <a href="{{ ('/' if lang == 'ta' else '/' + lang + '/') | url }}tags/{{ tag | urlencode }}/">#{{ tag }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <img class="recipe-cover" src="{{ coverImage }}" alt="" loading="eager" decoding="async">
+  </header>
+
+  <div class="recipe-body-grid">
+    <aside class="recipe-sidebar" aria-label="Recipe tools">
+      <section class="panel ingredients-panel" data-ingredients-panel>
+        <div class="panel-heading">
+          <h2>Ingredients</h2>
+          {% if servings %}<span data-base-servings="{{ servings }}">{{ servings }}</span>{% endif %}
+        </div>
+        <label class="scale-control">
+          <span>Scale</span>
+          <input type="number" min="0.25" max="8" step="0.25" value="1" data-scale-input>
+        </label>
+        <label class="ingredient-search">
+          <span class="sr-only">Search ingredients</span>
+          <input type="search" placeholder="Search ingredients" data-ingredient-search>
+        </label>
+        <ul class="ingredient-list">
+          {% set previousGroup = "" %}
+          {% for item in ingredients %}
+            {% if item.group and item.group != previousGroup %}
+              <li class="ingredient-group">{{ item.group }}</li>
+              {% set previousGroup = item.group %}
+            {% endif %}
+            <li class="ingredient-item" data-ingredient-name="{{ item.name | lower }}">
+              <label>
+                <input type="checkbox">
+                <span>
+                  {% if item.quantity %}<span data-quantity="{{ item.quantity }}">{{ item.quantity }}</span>{% endif %}
+                  {% if item.unit %}<span>{{ item.unit }}</span>{% endif %}
+                  <strong>{{ item.name }}</strong>
+                  {% if item.note %}<em>{{ item.note }}</em>{% endif %}
+                </span>
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="button-row">
+          <button type="button" class="button button--ghost" data-copy-ingredients>
+            <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>Copy
+          </button>
+          <button type="button" class="button button--ghost" data-print-recipe>
+            <span class="material-symbols-rounded" aria-hidden="true">print</span>Print
+          </button>
+        </div>
+      </section>
+    </aside>
+
+    <div class="recipe-main">
+      {% if mediaEmbeds %}
+        <section class="media-section" aria-labelledby="media-heading">
+          <h2 id="media-heading">Media</h2>
+          <div class="embed-grid">
+            {% for embed in mediaEmbeds %}
+              <article class="panel video-resource">
+                <h3>{{ embed.title or embed.type }}</h3>
+                <div class="media-embed" data-provider="{{ embed.type }}" data-id="{{ embed.id }}" data-title="{{ embed.title }}" data-start="{{ embed.startTime or '' }}">
+                  <button type="button" class="video-play-button" data-load-embed aria-label="Play {{ embed.title or embed.type }}">
+                    <span class="material-symbols-rounded" aria-hidden="true">play_arrow</span>
+                  </button>
+                </div>
+                <div class="video-actions">
+                  <button type="button" class="media-control" data-mute-embed disabled>
+                    <span class="material-symbols-rounded" aria-hidden="true">volume_off</span>Mute
+                  </button>
+                  <a class="media-control" data-watch-embed href="#" target="_blank" rel="noopener">
+                    <span class="material-symbols-rounded" aria-hidden="true">smart_display</span>Watch on YouTube
+                  </a>
+                  <button type="button" class="media-control" data-pip-embed disabled>
+                    <span class="material-symbols-rounded" aria-hidden="true">picture_in_picture_alt</span>PiP
+                  </button>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      <section class="prose recipe-content">
+        {{ content | safe }}
+      </section>
+
+      {% if nutrition %}
+        <section class="panel nutrition-panel">
+          <h2>Nutrition</h2>
+          <dl>
+            {% for key, value in nutrition %}
+              <div><dt>{{ key }}</dt><dd>{{ value }}</dd></div>
+            {% endfor %}
+          </dl>
+        </section>
+      {% endif %}
+
+      {% if related.length %}
+        <section class="related-section">
+          <div class="section-heading">
+            <h2>Related recipes</h2>
+          </div>
+          <div class="card-grid card-grid--compact">
+            {% for recipe in related %}
+              {% include "components/recipe-card.njk" %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      <nav class="previous-next" aria-label="Recipe navigation">
+        {% for item in recipeList %}
+          {% if item.url == page.url %}
+            {% if loop.index0 > 0 %}<a href="{{ recipeList[loop.index0 - 1].url | url }}">Previous: {{ recipeList[loop.index0 - 1].data.title }}</a>{% endif %}
+            {% if loop.index < recipeList.length %}<a href="{{ recipeList[loop.index0 + 1].url | url }}">Next: {{ recipeList[loop.index0 + 1].data.title }}</a>{% endif %}
+          {% endif %}
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": {{ title | json | safe }},
+  "description": {{ (summary or (content | excerpt(32))) | json | safe }},
+  "recipeCategory": {{ (category | categoryLabel) | json | safe }},
+  "recipeIngredient": {{ (ingredients | ingredientNames) | json | safe }},
+  "author": { "@type": "Organization", "name": {{ site.author | json | safe }} },
+  "url": {{ (page.url | absoluteUrl(site)) | json | safe }}{% if published %},
+  "datePublished": {{ (published | dateIso) | json | safe }}{% endif %}{% if updated %},
+  "dateModified": {{ (updated | dateIso) | json | safe }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.name | json | safe }}, "item": {{ ((languages | languageMeta(lang)).home | absoluteUrl(site)) | json | safe }} },
+    { "@type": "ListItem", "position": 2, "name": "Recipes", "item": {{ ((languages | languageMeta(lang)).recipes | absoluteUrl(site)) | json | safe }} },
+    { "@type": "ListItem", "position": 3, "name": {{ title | json | safe }}, "item": {{ (page.url | absoluteUrl(site)) | json | safe }} }
+  ]
+}
+</script>

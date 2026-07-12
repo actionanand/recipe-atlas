@@ -1,0 +1,43 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.recipeListPages
+  size: 1
+  alias: listPage
+permalink: "{{ listPage.permalink }}"
+lang: "{{ listPage.lang }}"
+title: Recipes
+---
+{% set language = languages | languageMeta(listPage.lang) %}
+<section class="page-shell">
+  <div class="section-heading">
+    <p class="eyebrow">{{ language.name }}</p>
+    <h1>{{ "சமையல்கள்" if listPage.lang == "ta" else "Recipes" }}</h1>
+    <p>{{ "Veg மற்றும் Non-Veg வகைகளில் அனைத்து சமையல்களும்." if listPage.lang == "ta" else "Browse all recipes with category filters and tags." }}</p>
+  </div>
+  <div class="filter-pills" data-category-filter>
+    <button class="pill is-active" type="button" data-filter="all">All</button>
+    <button class="pill" type="button" data-filter="veg">Veg</button>
+    <button class="pill" type="button" data-filter="non-veg">Non-Veg</button>
+  </div>
+  <div class="category-links">
+    <a href="{{ ('/categories/veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/veg/') | url }}">Veg</a>
+    <a href="{{ ('/categories/non-veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/non-veg/') | url }}">Non-Veg</a>
+  </div>
+  <div class="card-grid" data-filter-targets>
+    {% for recipe in listPage.recipes %}
+      {% include "components/recipe-card.njk" %}
+    {% endfor %}
+  </div>
+  {% if listPage.totalPages > 1 %}
+    <nav class="pagination" aria-label="Pagination">
+      {% if listPage.pageNumber > 1 %}
+        <a href="{{ (language.recipes if listPage.pageNumber == 2 else language.recipes + 'page/' + (listPage.pageNumber - 1) + '/') | url }}">Previous</a>
+      {% endif %}
+      <span>Page {{ listPage.pageNumber }} of {{ listPage.totalPages }}</span>
+      {% if listPage.pageNumber < listPage.totalPages %}
+        <a href="{{ (language.recipes + 'page/' + (listPage.pageNumber + 1) + '/') | url }}">Next</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+</section>

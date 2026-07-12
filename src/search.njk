@@ -1,0 +1,36 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: languages
+  size: 1
+  alias: langItem
+permalink: "{{ langItem.search }}"
+lang: "{{ langItem.code }}"
+title: Search
+loadSearch: true
+---
+<section class="search-app" data-search-app data-lang="{{ langItem.code }}">
+  <div class="section-heading">
+    <p class="eyebrow">{{ langItem.name }}</p>
+    <h1>{{ "தேடல்" if langItem.code == "ta" else "Search" }}</h1>
+  </div>
+  <form class="search-controls" role="search" data-search-form>
+    <label>
+      <span class="sr-only">Search recipes</span>
+      <input type="search" name="q" placeholder="{{ 'பெயர், பொருள், குறிச்சொல்' if langItem.code == 'ta' else 'Title, ingredient, tag' }}" data-search-input autocomplete="off">
+    </label>
+    <select data-search-category aria-label="Category">
+      <option value="all">All</option>
+      <option value="veg">Veg</option>
+      <option value="non-veg">Non-Veg</option>
+    </select>
+    <select data-search-language aria-label="Language">
+      <option value="{{ langItem.code }}">{{ langItem.name }}</option>
+      <option value="all">All languages</option>
+      {% for item in languages %}
+        {% if item.code != langItem.code %}<option value="{{ item.code }}">{{ item.name }}</option>{% endif %}
+      {% endfor %}
+    </select>
+  </form>
+  <div class="search-results" data-search-results role="list" aria-live="polite"></div>
+</section>

@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: languages
+  size: 1
+  alias: langItem
+permalink: "{{ langItem.about }}"
+lang: "{{ langItem.code }}"
+title: About
+summary: RecipeAtlas is built for multilingual recipe publishing.
+---
+<section class="page-shell about-page">
+  <figure class="about-hero-image">
+    <img src="{{ '/assets/images/recipe-atlas.png' | url }}" alt="RecipeAtlas">
+  </figure>
+  <div class="section-heading">
+    <p class="eyebrow">{{ langItem.name }}</p>
+    <h1>{{ "RecipeAtlas பற்றி" if langItem.code == "ta" else "About RecipeAtlas" }}</h1>
+  </div>
+  <div class="prose">
+    {% if langItem.code == "ta" %}
+      <p>RecipeAtlas தமிழ் மொழியை இயல்புநிலையாகக் கொண்டு, அதே சமையலின் மொழிபெயர்ப்புகளை ஒரே translationKey மூலம் இணைக்கிறது.</p>
+      <p>புதிய மொழியைச் சேர்க்க, recipes அடைவுக்குள் அந்த மொழிக் குறியீடு கொண்ட புதிய கோப்புறையை உருவாக்கி Markdown சமையல்களைச் சேர்க்கலாம்.</p>
+    {% else %}
+      <p>RecipeAtlas keeps recipes in language folders and connects translations with a shared translationKey.</p>
+      <p>To add another language, create a new language folder under recipes and add Markdown recipe files with YAML ingredients.</p>
+    {% endif %}
+  </div>
+</section>

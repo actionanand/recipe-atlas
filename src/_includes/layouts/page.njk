@@ -1,0 +1,13 @@
+---
+layout: layouts/base.njk
+---
+<section class="page-shell">
+  <div class="section-heading">
+    <p class="eyebrow">{{ eyebrow or site.name }}</p>
+    <h1>{{ title }}</h1>
+    {% if summary %}<p>{{ summary }}</p>{% endif %}
+  </div>
+  <div class="prose">
+    {{ content | safe }}
+  </div>
+</section>

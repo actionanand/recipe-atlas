@@ -1,0 +1,26 @@
+{
+  "name": "recipeatlas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A production-ready multilingual recipe knowledge base built with Eleventy.",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "inspect": "eleventy --dryrun"
+  },
+  "keywords": [
+    "eleventy",
+    "recipes",
+    "multilingual",
+    "static-site"
+  ],
+  "author": "Anand raja",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6"
+  },
+  "engines": {
+    "node": ">=20.9.0 <25"
+  }
+}
