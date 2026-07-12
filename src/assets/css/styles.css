@@ -735,6 +735,12 @@ mark {
 .about-page {
   display: grid;
   gap: 1.25rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.about-page > * {
+  width: min(100%, 74rem);
 }
 
 .about-hero-image {
@@ -758,6 +764,25 @@ mark {
 
 .prose {
   max-width: 74ch;
+}
+
+.about-page .prose {
+  text-align: start;
+}
+
+.about-page .section-heading {
+  justify-items: center;
+  text-align: center;
+}
+
+.about-page .section-heading h1 {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.about-author-subtitle {
+  margin-inline: auto;
+  text-align: center;
 }
 
 .prose :where(img, iframe, video, table, pre) {

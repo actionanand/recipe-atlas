@@ -6,17 +6,18 @@ pagination:
   alias: langItem
 permalink: "{{ langItem.about }}"
 lang: "{{ langItem.code }}"
-title: About Author
-summary: Meet Jothi Anand, the home cook behind RecipeAtlas.
+summary: Meet Jothi Anand, the home cook behind RecipeAtlas (AKA Bangalore Samayal).
+eleventyComputed:
+  title: "{{ 'ஆசிரியரை பற்றி' if langItem.code == 'ta' else 'About Author' }}"
 ---
 {% set aboutContent = {
   ta: {
     eyebrow: "ஆசிரியர் அறிமுகம்",
-    title: "About Author",
+    title: "ஆசிரியரை பற்றி",
     subtitle: "நான் ஜோதி ஆனந்த். தமிழ்நாட்டில் பிறந்து வளர்ந்த நான், இப்போது என் கணவர் மற்றும் குழந்தைகளுடன் பெங்களூரில் வசிக்கிறேன்.",
     paragraphs: [
       "சமையல் எனக்கு ஒரு அன்றாட வேலை மட்டும் அல்ல. அது அன்பும், ஆர்வமும், குடும்பத்தின் ஆரோக்கியத்தையும் சேர்த்த ஒரு சிறிய ஆய்வுக்கூடம். புதிய சுவைகளை முயற்சி செய்ய எனக்கு இயல்பாகவே பிடிக்கும். ஆனால் சுவைக்காக ஆரோக்கியத்தில் சமரசம் செய்யாமல், தேவையற்ற ரசாயன பொருட்கள் இல்லாமல் சமைப்பதே என் வழக்கம்.",
-      "என் சமையல் அனுபவங்களையும், நான் முயற்சி செய்து பார்த்த குறிப்புகளையும் என்னைப் போன்ற வீட்டு சமையல் ஆர்வலர்களுடன் பகிர்ந்து கொள்ளவே இந்த RecipeAtlas வலைப்பதிவை தொடங்கினேன். அதே நேரத்தில், எதிர்காலத்தில் எனக்கே என் பழைய சமையல் குறிப்புகளை மீண்டும் பார்க்கவும் இது ஒரு நினைவுப் புத்தகமாக இருக்கும்.",
+      "என் சமையல் அனுபவங்களையும், நான் முயற்சி செய்து பார்த்த குறிப்புகளையும் என்னைப் போன்ற வீட்டு சமையல் ஆர்வலர்களுடன் பகிர்ந்து கொள்ளவே இந்த RecipeAtlas (AKA Bangalore Samayal) வலைப்பதிவை தொடங்கினேன். அதே நேரத்தில், எதிர்காலத்தில் எனக்கே என் பழைய சமையல் குறிப்புகளை மீண்டும் பார்க்கவும் இது ஒரு நினைவுப் புத்தகமாக இருக்கும்.",
       "இங்கே உள்ள பல குறிப்புகள் என் சமையலறையில் நடந்த முயற்சிகளிலிருந்து வந்தவை. சில நேரங்களில் சுவை, அளவு, முறை எல்லாம் சிறிய மாற்றங்களால் மேலும் மேம்படும். என் சமையலில் ஏதேனும் குறைகள் இருந்தால் தயவுசெய்து பொறுத்துக் கொள்ளுங்கள். நான் இன்னும் சமையலறையில் ஆராய்ச்சி செய்து கொண்டிருக்கும் ஒரு வீட்டு சமையல் ஆர்வலர் தான்."
     ],
     noteTitle: "என் சமையல் நம்பிக்கை",
@@ -28,7 +29,7 @@ summary: Meet Jothi Anand, the home cook behind RecipeAtlas.
     subtitle: "I am Jothi Anand. I am from Tamil Nadu, and I now live in Bangalore with my husband and children.",
     paragraphs: [
       "Cooking is more than a daily routine for me. It is a warm little space where love, curiosity, family health, and everyday creativity meet. I naturally enjoy trying new recipes, but I try not to compromise on health or depend on unnecessary chemical ingredients.",
-      "I started RecipeAtlas to share my kitchen knowledge with home cooks like me. It is also my own recipe notebook, a place where I can come back later and remember what I tried, what worked, and how a dish can be made again with the same care.",
+      "I started RecipeAtlas (AKA Bangalore Samayal) to share my kitchen knowledge with home cooks like me. It is also my own recipe notebook, a place where I can come back later and remember what I tried, what worked, and how a dish can be made again with the same care.",
       "Many recipes here come from my own kitchen experiments. Sometimes the taste, method, or measurement may keep improving as I continue learning. If you notice any mistakes in my cooking, please bear with me. I am happily doing R and D with everyday kitchen food."
     ],
     noteTitle: "My Cooking Belief",
@@ -43,7 +44,7 @@ summary: Meet Jothi Anand, the home cook behind RecipeAtlas.
   <div class="section-heading">
     <p class="eyebrow">{{ author.eyebrow }}</p>
     <h1>{{ author.title }}</h1>
-    <p>{{ author.subtitle }}</p>
+    <p class="about-author-subtitle">{{ author.subtitle }}</p>
   </div>
   <div class="prose">
     {% for paragraph in author.paragraphs %}
