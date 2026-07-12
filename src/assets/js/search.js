@@ -3,6 +3,12 @@ const input = app?.querySelector("[data-search-input]");
 const category = app?.querySelector("[data-search-category]");
 const language = app?.querySelector("[data-search-language]");
 const results = app?.querySelector("[data-search-results]");
+const labels = {
+  veg: app?.dataset.labelVeg || "Veg",
+  nonVeg: app?.dataset.labelNonVeg || "Non-Veg",
+  noResults: app?.dataset.labelNoResults || "No recipes found.",
+  searchUnavailable: app?.dataset.labelSearchUnavailable || "Search index could not be loaded."
+};
 let index = [];
 let activeResult = -1;
 
@@ -88,7 +94,7 @@ function render() {
     ? matches.map((item) => `
       <article class="search-result" role="listitem" tabindex="-1">
         <div class="meta-row">
-          <span class="pill">${item.category === "non-veg" ? "Non-Veg" : "Veg"}</span>
+          <span class="pill">${item.category === "non-veg" ? escapeHtml(labels.nonVeg) : escapeHtml(labels.veg)}</span>
           <span>${item.lang}</span>
         </div>
         <h2><a href="${item.url}">${highlight(item.title, query)}</a></h2>
@@ -96,7 +102,7 @@ function render() {
         <div class="tag-row">${(item.tags || []).slice(0, 5).map((tag) => `<span>#${highlight(tag, query)}</span>`).join("")}</div>
       </article>
     `).join("")
-    : `<p class="search-result">No recipes found.</p>`;
+    : `<p class="search-result">${escapeHtml(labels.noResults)}</p>`;
 }
 
 async function initSearch() {
@@ -109,7 +115,7 @@ async function initSearch() {
     render();
   } catch (error) {
     if (results) {
-      results.innerHTML = `<p class="search-result">Search index could not be loaded. Please run the site through the Eleventy dev server.</p>`;
+      results.innerHTML = `<p class="search-result">${escapeHtml(labels.searchUnavailable)}</p>`;
     }
     console.error(error);
   }
@@ -119,6 +125,29 @@ const renderDebounced = debounce(render);
 input?.addEventListener("input", renderDebounced);
 category?.addEventListener("change", render);
 language?.addEventListener("change", render);
+
+document.addEventListener("keydown", (event) => {
+  if (!input) return;
+
+  if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    const target = event.target;
+    const isTyping = target instanceof HTMLElement
+      && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName));
+    if (isTyping) return;
+
+    event.preventDefault();
+    input.focus();
+    input.select();
+    return;
+  }
+
+  if (event.key === "Escape" && document.activeElement === input) {
+    event.preventDefault();
+    input.value = "";
+    render();
+    input.blur();
+  }
+});
 
 app?.addEventListener("keydown", (event) => {
   const cards = [...app.querySelectorAll(".search-result")];

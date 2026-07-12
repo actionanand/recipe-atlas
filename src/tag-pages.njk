@@ -10,11 +10,12 @@ title: "Tag"
 ---
 {% set language = languages | languageMeta(tagPage.lang) %}
 {% set taggedRecipes = collections.recipes | recipesByTag(tagPage.lang, tagPage.tag) %}
+{% set labels = ui[tagPage.lang] or ui.en %}
 <section class="page-shell">
   <div class="section-heading">
     <p class="eyebrow">{{ language.name }}</p>
     <h1>#{{ tagPage.tag }}</h1>
-    <p>{{ tagPage.count }} recipes</p>
+    <p>{{ tagPage.count }} {{ labels.recipes }}</p>
   </div>
   <div class="card-grid">
     {% for recipe in taggedRecipes %}

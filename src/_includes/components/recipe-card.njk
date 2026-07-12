@@ -1,10 +1,11 @@
 <article class="recipe-card" data-category="{{ recipe.data.category }}" data-tags="{{ (recipe.data.tags or []) | join(',') }}">
+  {% set cardLabels = ui[recipe.data.lang] or ui.en %}
   <a class="recipe-card__image" href="{{ recipe.url | url }}">
     <img src="{{ recipe.data.cover | imageFor }}" alt="" loading="lazy" decoding="async">
   </a>
   <div class="recipe-card__body">
     <div class="meta-row">
-      <span class="pill">{{ recipe.data.category | categoryLabel }}</span>
+      <span class="pill">{{ cardLabels.nonVeg if recipe.data.category == "non-veg" else cardLabels.veg }}</span>
       {% if recipe.data.difficulty %}<span>{{ recipe.data.difficulty }}</span>{% endif %}
       {% if recipe.data.totalTime %}<span>{{ recipe.data.totalTime }}</span>{% endif %}
     </div>

@@ -9,20 +9,21 @@ lang: "{{ listPage.lang }}"
 title: Recipes
 ---
 {% set language = languages | languageMeta(listPage.lang) %}
+{% set labels = ui[listPage.lang] or ui.en %}
 <section class="page-shell">
   <div class="section-heading">
     <p class="eyebrow">{{ language.name }}</p>
-    <h1>{{ "சமையல்கள்" if listPage.lang == "ta" else "Recipes" }}</h1>
+    <h1>{{ labels.recipes }}</h1>
     <p>{{ "Veg மற்றும் Non-Veg வகைகளில் அனைத்து சமையல்களும்." if listPage.lang == "ta" else "Browse all recipes with category filters and tags." }}</p>
   </div>
   <div class="filter-pills" data-category-filter>
-    <button class="pill is-active" type="button" data-filter="all">All</button>
-    <button class="pill" type="button" data-filter="veg">Veg</button>
-    <button class="pill" type="button" data-filter="non-veg">Non-Veg</button>
+    <button class="pill is-active" type="button" data-filter="all">{{ labels.all }}</button>
+    <button class="pill" type="button" data-filter="veg">{{ labels.veg }}</button>
+    <button class="pill" type="button" data-filter="non-veg">{{ labels.nonVeg }}</button>
   </div>
   <div class="category-links">
-    <a href="{{ ('/categories/veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/veg/') | url }}">Veg</a>
-    <a href="{{ ('/categories/non-veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/non-veg/') | url }}">Non-Veg</a>
+    <a href="{{ ('/categories/veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/veg/') | url }}">{{ labels.veg }}</a>
+    <a href="{{ ('/categories/non-veg/' if listPage.lang == 'ta' else '/' + listPage.lang + '/categories/non-veg/') | url }}">{{ labels.nonVeg }}</a>
   </div>
   <div class="card-grid" data-filter-targets>
     {% for recipe in listPage.recipes %}
@@ -32,11 +33,11 @@ title: Recipes
   {% if listPage.totalPages > 1 %}
     <nav class="pagination" aria-label="Pagination">
       {% if listPage.pageNumber > 1 %}
-        <a href="{{ (language.recipes if listPage.pageNumber == 2 else language.recipes + 'page/' + (listPage.pageNumber - 1) + '/') | url }}">Previous</a>
+        <a href="{{ (language.recipes if listPage.pageNumber == 2 else language.recipes + 'page/' + (listPage.pageNumber - 1) + '/') | url }}">{{ labels.previous }}</a>
       {% endif %}
-      <span>Page {{ listPage.pageNumber }} of {{ listPage.totalPages }}</span>
+      <span>{{ labels.page }} {{ listPage.pageNumber }} {{ labels.pageOf }} {{ listPage.totalPages }}</span>
       {% if listPage.pageNumber < listPage.totalPages %}
-        <a href="{{ (language.recipes + 'page/' + (listPage.pageNumber + 1) + '/') | url }}">Next</a>
+        <a href="{{ (language.recipes + 'page/' + (listPage.pageNumber + 1) + '/') | url }}">{{ labels.next }}</a>
       {% endif %}
     </nav>
   {% endif %}

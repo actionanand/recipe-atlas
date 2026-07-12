@@ -1,8 +1,55 @@
-import { imageRegistry } from "./src/data/images/registry.js";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+
+import { appSocialImage, fallbackSocialImage, imageRegistry } from "./src/data/images/registry.js";
 
 const DEFAULT_LANGUAGE = "ta";
 const VALID_CATEGORIES = new Set(["veg", "non-veg"]);
 const PAGE_SIZE = 6;
+const GENERATED_IMAGE_DIR = "src/assets/images";
+
+function imageExtension(mimeType = "") {
+  if (mimeType === "image/jpeg") return "jpg";
+  if (mimeType === "image/gif") return "gif";
+  if (mimeType === "image/webp") return "webp";
+  return "png";
+}
+
+function socialImageName(key, mimeType) {
+  const slug = String(key)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return `og-${slug}.${imageExtension(mimeType)}`;
+}
+
+function dataImageParts(value = "") {
+  const match = String(value).match(/^data:(image\/[a-z0-9.+-]+);base64,([\s\S]+)$/i);
+  return match ? { mimeType: match[1].toLowerCase(), base64: match[2] } : null;
+}
+
+function buildSocialImageRegistry() {
+  const socialImages = { DEFAULT_IMG: fallbackSocialImage };
+  if (!existsSync(GENERATED_IMAGE_DIR)) mkdirSync(GENERATED_IMAGE_DIR, { recursive: true });
+
+  for (const [key, image] of Object.entries(imageRegistry)) {
+    if (key === "DEFAULT_IMG") continue;
+    if (typeof image === "string" && image.startsWith("/")) {
+      socialImages[key] = image;
+      continue;
+    }
+
+    const dataImage = dataImageParts(image);
+    if (!dataImage) continue;
+
+    const fileName = socialImageName(key, dataImage.mimeType);
+    writeFileSync(`${GENERATED_IMAGE_DIR}/${fileName}`, Buffer.from(dataImage.base64, "base64"));
+    socialImages[key] = `/assets/images/${fileName}`;
+  }
+
+  return socialImages;
+}
+
+const generatedSocialImages = buildSocialImageRegistry();
 
 function escapeHtml(value = "") {
   return String(value)
@@ -111,6 +158,15 @@ export default function eleventyConfig(config) {
     return cleanUrl.replace(new RegExp(`^/${currentLanguage}(?=/|$)`), `/${targetCode}`);
   });
   config.addFilter("imageFor", (key) => imageRegistry[key] || imageRegistry.DEFAULT_IMG || "");
+  config.addFilter("socialImageFor", (key) => generatedSocialImages[key] || fallbackSocialImage || "");
+  config.addFilter("siteSocialImage", () => appSocialImage);
+  config.addFilter("imageMimeType", (path = "") => {
+    const value = String(path).toLowerCase();
+    if (value.endsWith(".webp")) return "image/webp";
+    if (value.endsWith(".jpg") || value.endsWith(".jpeg")) return "image/jpeg";
+    if (value.endsWith(".gif")) return "image/gif";
+    return "image/png";
+  });
   config.addFilter("hasMermaid", (content) => String(content).includes("class=\"mermaid\""));
   config.addFilter("dateIso", (value) => (value ? new Date(value).toISOString().slice(0, 10) : ""));
   config.addFilter("dateDisplay", (value, locale = "en") => {

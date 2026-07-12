@@ -6,6 +6,7 @@ isRecipePage: true
 {% set recipeList = collections.recipes | recipesForLang(lang) %}
 {% set related = collections.recipes | relatedRecipes(currentRecipe) %}
 {% set coverImage = cover | imageFor %}
+{% set labels = ui[lang] or ui.en %}
 <div class="reading-progress" data-reading-progress></div>
 <article class="recipe-layout">
   <header class="recipe-hero">
@@ -13,18 +14,18 @@ isRecipePage: true
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="{{ (languages | languageMeta(lang)).home | url }}">{{ site.name }}</a>
         <span aria-hidden="true">/</span>
-        <a href="{{ (languages | languageMeta(lang)).recipes | url }}">Recipes</a>
+        <a href="{{ (languages | languageMeta(lang)).recipes | url }}">{{ labels.recipes }}</a>
       </nav>
-      <p class="eyebrow">{{ category | categoryLabel }}</p>
+      <p class="eyebrow">{{ labels.nonVeg if category == "non-veg" else labels.veg }}</p>
       <h1>{{ title }}</h1>
       {% if summary %}<p class="lede">{{ summary }}</p>{% endif %}
       <div class="meta-grid">
-        {% if difficulty %}<span><strong>Difficulty</strong>{{ difficulty }}</span>{% endif %}
-        {% if servings %}<span><strong>Servings</strong>{{ servings }}</span>{% endif %}
-        {% if prepTime %}<span><strong>Prep</strong>{{ prepTime }}</span>{% endif %}
-        {% if cookTime %}<span><strong>Cook</strong>{{ cookTime }}</span>{% endif %}
-        {% if totalTime %}<span><strong>Total</strong>{{ totalTime }}</span>{% endif %}
-        <span><strong>Read</strong>{{ content | readingTime }} min</span>
+        {% if difficulty %}<span><strong>{{ labels.difficulty }}</strong>{{ difficulty }}</span>{% endif %}
+        {% if servings %}<span><strong>{{ labels.servings }}</strong>{{ servings }}</span>{% endif %}
+        {% if prepTime %}<span><strong>{{ labels.prep }}</strong>{{ prepTime }}</span>{% endif %}
+        {% if cookTime %}<span><strong>{{ labels.cook }}</strong>{{ cookTime }}</span>{% endif %}
+        {% if totalTime %}<span><strong>{{ labels.total }}</strong>{{ totalTime }}</span>{% endif %}
+        <span><strong>{{ labels.read }}</strong>{{ content | readingTime }} {{ labels.readMin }}</span>
       </div>
       {% if tags %}
         <div class="tag-row">
@@ -38,19 +39,19 @@ isRecipePage: true
   </header>
 
   <div class="recipe-body-grid">
-    <aside class="recipe-sidebar" aria-label="Recipe tools">
+    <aside class="recipe-sidebar" aria-label="{{ labels.recipeTools }}">
       <section class="panel ingredients-panel" data-ingredients-panel>
         <div class="panel-heading">
-          <h2>Ingredients</h2>
+          <h2>{{ labels.ingredients }}</h2>
           {% if servings %}<span data-base-servings="{{ servings }}">{{ servings }}</span>{% endif %}
         </div>
         <label class="scale-control">
-          <span>Scale</span>
+          <span>{{ labels.scale }}</span>
           <input type="number" min="0.25" max="8" step="0.25" value="1" data-scale-input>
         </label>
         <label class="ingredient-search">
-          <span class="sr-only">Search ingredients</span>
-          <input type="search" placeholder="Search ingredients" data-ingredient-search>
+          <span class="sr-only">{{ labels.searchIngredients }}</span>
+          <input type="search" placeholder="{{ labels.searchIngredients }}" data-ingredient-search>
         </label>
         <ul class="ingredient-list">
           {% set previousGroup = "" %}
@@ -74,10 +75,10 @@ isRecipePage: true
         </ul>
         <div class="button-row">
           <button type="button" class="button button--ghost" data-copy-ingredients>
-            <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>Copy
+            <span class="material-symbols-rounded" aria-hidden="true">content_copy</span>{{ labels.copy }}
           </button>
           <button type="button" class="button button--ghost" data-print-recipe>
-            <span class="material-symbols-rounded" aria-hidden="true">print</span>Print
+            <span class="material-symbols-rounded" aria-hidden="true">print</span>{{ labels.print }}
           </button>
         </div>
       </section>
@@ -86,7 +87,7 @@ isRecipePage: true
     <div class="recipe-main">
       {% if mediaEmbeds %}
         <section class="media-section" aria-labelledby="media-heading">
-          <h2 id="media-heading">Media</h2>
+          <h2 id="media-heading">{{ labels.media }}</h2>
           <div class="embed-grid">
             {% for embed in mediaEmbeds %}
               <article class="panel video-resource">
@@ -98,13 +99,13 @@ isRecipePage: true
                 </div>
                 <div class="video-actions">
                   <button type="button" class="media-control" data-mute-embed disabled>
-                    <span class="material-symbols-rounded" aria-hidden="true">volume_off</span>Mute
+                    <span class="material-symbols-rounded" aria-hidden="true">volume_off</span>{{ labels.mute }}
                   </button>
                   <a class="media-control" data-watch-embed href="#" target="_blank" rel="noopener">
-                    <span class="material-symbols-rounded" aria-hidden="true">smart_display</span>Watch on YouTube
+                    <span class="material-symbols-rounded" aria-hidden="true">smart_display</span>{{ labels.watchOnYouTube }}
                   </a>
                   <button type="button" class="media-control" data-pip-embed disabled>
-                    <span class="material-symbols-rounded" aria-hidden="true">picture_in_picture_alt</span>PiP
+                    <span class="material-symbols-rounded" aria-hidden="true">picture_in_picture_alt</span>{{ labels.pip }}
                   </button>
                 </div>
               </article>
@@ -119,7 +120,7 @@ isRecipePage: true
 
       {% if nutrition %}
         <section class="panel nutrition-panel">
-          <h2>Nutrition</h2>
+          <h2>{{ labels.nutrition }}</h2>
           <dl>
             {% for key, value in nutrition %}
               <div><dt>{{ key }}</dt><dd>{{ value }}</dd></div>
@@ -131,7 +132,7 @@ isRecipePage: true
       {% if related.length %}
         <section class="related-section">
           <div class="section-heading">
-            <h2>Related recipes</h2>
+            <h2>{{ labels.relatedRecipes }}</h2>
           </div>
           <div class="card-grid card-grid--compact">
             {% for recipe in related %}
@@ -141,11 +142,11 @@ isRecipePage: true
         </section>
       {% endif %}
 
-      <nav class="previous-next" aria-label="Recipe navigation">
+      <nav class="previous-next" aria-label="{{ labels.recipeNavigation }}">
         {% for item in recipeList %}
           {% if item.url == page.url %}
-            {% if loop.index0 > 0 %}<a href="{{ recipeList[loop.index0 - 1].url | url }}">Previous: {{ recipeList[loop.index0 - 1].data.title }}</a>{% endif %}
-            {% if loop.index < recipeList.length %}<a href="{{ recipeList[loop.index0 + 1].url | url }}">Next: {{ recipeList[loop.index0 + 1].data.title }}</a>{% endif %}
+            {% if loop.index0 > 0 %}<a href="{{ recipeList[loop.index0 - 1].url | url }}">{{ labels.previous }}: {{ recipeList[loop.index0 - 1].data.title }}</a>{% endif %}
+            {% if loop.index < recipeList.length %}<a href="{{ recipeList[loop.index0 + 1].url | url }}">{{ labels.next }}: {{ recipeList[loop.index0 + 1].data.title }}</a>{% endif %}
           {% endif %}
         {% endfor %}
       </nav>
@@ -159,7 +160,8 @@ isRecipePage: true
   "@type": "Recipe",
   "name": {{ title | json | safe }},
   "description": {{ (summary or (content | excerpt(32))) | json | safe }},
-  "recipeCategory": {{ (category | categoryLabel) | json | safe }},
+  "image": {{ (cover | socialImageFor | absoluteUrl(site)) | json | safe }},
+  "recipeCategory": {{ (labels.nonVeg if category == "non-veg" else labels.veg) | json | safe }},
   "recipeIngredient": {{ (ingredients | ingredientNames) | json | safe }},
   "author": { "@type": "Organization", "name": {{ site.author | json | safe }} },
   "url": {{ (page.url | absoluteUrl(site)) | json | safe }}{% if published %},
@@ -173,7 +175,7 @@ isRecipePage: true
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": {{ site.name | json | safe }}, "item": {{ ((languages | languageMeta(lang)).home | absoluteUrl(site)) | json | safe }} },
-    { "@type": "ListItem", "position": 2, "name": "Recipes", "item": {{ ((languages | languageMeta(lang)).recipes | absoluteUrl(site)) | json | safe }} },
+    { "@type": "ListItem", "position": 2, "name": {{ labels.recipes | json | safe }}, "item": {{ ((languages | languageMeta(lang)).recipes | absoluteUrl(site)) | json | safe }} },
     { "@type": "ListItem", "position": 3, "name": {{ title | json | safe }}, "item": {{ (page.url | absoluteUrl(site)) | json | safe }} }
   ]
 }

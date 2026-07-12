@@ -9,23 +9,24 @@ lang: "{{ langItem.code }}"
 title: Tags
 ---
 {% set tagCounts = collections.recipes | tagCountsForLang(langItem.code) %}
+{% set labels = ui[langItem.code] or ui.en %}
 <section class="page-shell">
   <div class="section-heading">
     <p class="eyebrow">{{ langItem.name }}</p>
-    <h1>{{ "குறிச்சொற்கள்" if langItem.code == "ta" else "Tags" }}</h1>
+    <h1>{{ labels.tags }}</h1>
     <p>{{ "சமையல் பாணி, நேரம், சுவை ஆகியவற்றால் உலாவுக." if langItem.code == "ta" else "Browse by cooking style, timing, and flavor." }}</p>
   </div>
   <section class="panel">
     <div class="panel-heading">
-      <h2>Tags</h2>
+      <h2>{{ labels.tags }}</h2>
       <button class="icon-button" type="button" data-collapse-toggle="all-tags" aria-expanded="true">
         <span class="material-symbols-rounded" aria-hidden="true">expand_less</span>
       </button>
     </div>
     <div class="filter-pills tag-filter-pills" data-category-filter>
-      <button class="pill is-active" type="button" data-filter="all">All</button>
-      <button class="pill" type="button" data-filter="veg">Veg</button>
-      <button class="pill" type="button" data-filter="non-veg">Non-Veg</button>
+      <button class="pill is-active" type="button" data-filter="all">{{ labels.all }}</button>
+      <button class="pill" type="button" data-filter="veg">{{ labels.veg }}</button>
+      <button class="pill" type="button" data-filter="non-veg">{{ labels.nonVeg }}</button>
     </div>
     <div class="tag-cloud tag-cloud--large" data-collapse-panel="all-tags" data-filter-targets>
       {% for item in tagCounts %}

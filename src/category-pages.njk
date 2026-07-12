@@ -9,11 +9,12 @@ lang: "{{ categoryPage.lang }}"
 title: "Category"
 ---
 {% set language = languages | languageMeta(categoryPage.lang) %}
+{% set labels = ui[categoryPage.lang] or ui.en %}
 <section class="page-shell">
   <div class="section-heading">
     <p class="eyebrow">{{ language.name }}</p>
-    <h1>{{ categoryPage.category | categoryLabel }}</h1>
-    <p>{{ categoryPage.recipes.length }} recipes</p>
+    <h1>{{ labels.nonVeg if categoryPage.category == "non-veg" else labels.veg }}</h1>
+    <p>{{ categoryPage.recipes.length }} {{ labels.recipes }}</p>
   </div>
   <div class="card-grid">
     {% for recipe in categoryPage.recipes %}
