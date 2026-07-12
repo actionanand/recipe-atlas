@@ -18,7 +18,7 @@ loadSearch: true
   <form class="search-controls" role="search" data-search-form>
     <label>
       <span class="sr-only">{{ labels.searchRecipes }}</span>
-      <input type="search" name="q" placeholder="{{ 'பெயர், பொருள், குறிச்சொல்' if langItem.code == 'ta' else 'Title, ingredient, tag' }}" data-search-input autocomplete="off">
+      <input type="search" name="q" placeholder="{{ 'பெயர், பொருள், குறிச்சொல் - / அழுத்தவும்' if langItem.code == 'ta' else 'Title, ingredient, tag - press /' }}" data-search-input autocomplete="off">
     </label>
     <select data-search-category aria-label="{{ labels.category }}">
       <option value="all">{{ labels.all }}</option>

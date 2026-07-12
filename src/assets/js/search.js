@@ -126,6 +126,29 @@ input?.addEventListener("input", renderDebounced);
 category?.addEventListener("change", render);
 language?.addEventListener("change", render);
 
+document.addEventListener("keydown", (event) => {
+  if (!input) return;
+
+  if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    const target = event.target;
+    const isTyping = target instanceof HTMLElement
+      && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName));
+    if (isTyping) return;
+
+    event.preventDefault();
+    input.focus();
+    input.select();
+    return;
+  }
+
+  if (event.key === "Escape" && document.activeElement === input) {
+    event.preventDefault();
+    input.value = "";
+    render();
+    input.blur();
+  }
+});
+
 app?.addEventListener("keydown", (event) => {
   const cards = [...app.querySelectorAll(".search-result")];
   if (!cards.length || !["ArrowDown", "ArrowUp", "Enter"].includes(event.key)) return;

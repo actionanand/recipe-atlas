@@ -5,5 +5,6 @@ export default {
   defaultLanguage: "ta",
   pageSize: 6,
   author: "RecipeAtlas",
+  socialImage: "/assets/images/recipe-atlas.png",
   githubPagesBasePath: process.env.BASE_PATH || "/"
 };
