@@ -15,8 +15,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  prepare-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure GitHub Pages is enabled
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_ENABLEMENT_TOKEN: ${{ secrets.PAGES_ENABLEMENT_TOKEN }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            echo "GitHub Pages is already enabled."
+            exit 0
+          fi
+
+          if [ -z "${PAGES_ENABLEMENT_TOKEN}" ]; then
+            echo "::error::GitHub Pages is not enabled. Go to Settings > Pages and set Source to GitHub Actions, or add a PAGES_ENABLEMENT_TOKEN secret with Pages write and Administration write permission so this workflow can enable it automatically."
+            exit 1
+          fi
+
+          echo "GitHub Pages is not enabled. Enabling it for GitHub Actions deployments."
+          GH_TOKEN="${PAGES_ENABLEMENT_TOKEN}" gh api --method POST "repos/${{ github.repository }}/pages" -f build_type=workflow >/dev/null
+
   build:
     runs-on: ubuntu-latest
+    needs: prepare-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
