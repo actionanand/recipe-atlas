@@ -33,6 +33,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify Pages is enabled
+        if: env.PAGES_ENABLEMENT_TOKEN == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh api "repos/${{ github.repository }}/pages" > /dev/null 2>&1; then
+            echo "::error::GitHub Pages is not enabled for this repository. Go to Settings > Pages and set Source to GitHub Actions, or add a PAGES_ENABLEMENT_TOKEN secret with Pages/admin permission so this workflow can enable it automatically."
+            exit 1
+          fi
+
       - name: Configure Pages
         if: env.PAGES_ENABLEMENT_TOKEN == ''
         uses: actions/configure-pages@v6
