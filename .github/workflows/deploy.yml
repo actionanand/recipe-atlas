@@ -10,6 +10,9 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  PAGES_ENABLEMENT_TOKEN: ${{ secrets.PAGES_ENABLEMENT_TOKEN }}
+
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -24,14 +27,22 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        if: env.PAGES_ENABLEMENT_TOKEN == ''
+        uses: actions/configure-pages@v6
+
+      - name: Configure and enable Pages
+        if: env.PAGES_ENABLEMENT_TOKEN != ''
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
+          token: ${{ env.PAGES_ENABLEMENT_TOKEN }}
 
       - name: Build
         shell: bash
@@ -43,7 +54,7 @@ jobs:
           fi
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -56,4 +67,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
