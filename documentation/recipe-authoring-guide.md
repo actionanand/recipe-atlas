@@ -116,7 +116,7 @@ src/data/images/registry.js
 Example usage:
 
 ```yaml
-cover: BIRYANI
+cover: EGG_NOODLES
 ```
 
 Inside the recipe body, use:

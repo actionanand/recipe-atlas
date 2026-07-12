@@ -12,13 +12,13 @@ tags:
   - homemade
 featured: true
 published: 2026-07-12
-updated: 2026-07-12
+updated: 2026-07-13
 difficulty: Easy
-servings: 4
+servings: 2
 prepTime: 15 min
 cookTime: 15 min
 totalTime: 30 min
-cover: BIRYANI
+cover: EGG_NOODLES
 ingredients:
   - group: Egg scramble
     name: Eggs
@@ -77,21 +77,23 @@ This is the first recipe I am sharing from my own kitchen notes, so I wanted it 
 
 The taste is warm and familiar, but the method is fast enough for a busy evening. The most important part is the high-flame stir-fry. Once the cabbage goes in, stay near the wok and keep stirring. That little attention gives the noodles their lively texture.
 
-{% recipeImage "BIRYANI_STEP1", "Temporary cover-style image", "Biryani image is used as a temporary placeholder. Replace it later with the egg noodles image." %}
+This quantity comfortably serves two adults with a good appetite. If serving children, it is enough for about three kids.
+
+{% recipeImage "EGG_NOODLES", "Healthy egg masala noodles served hot", "Homestyle egg masala noodles with cabbage, pepper, tomato, and scrambled eggs." %}
 
 ## Before You Start
 
-Boil the noodles first, drain them, and keep them ready. Do not overcook them. Soft but firm noodles mix better in the wok and will not become sticky.
+Boil the noodles first with a little salt, drain them, and keep them ready. Do not overcook them. Soft but firm noodles mix better in the wok and will not become sticky.
 
 ## Method
 
-1. Heat 1 tablespoon oil in a wok. Add 3 eggs and scramble them into small pieces. Once cooked, transfer the scrambled eggs to a plate and keep them aside.
+1. Heat 1 tablespoon oil in a wok. Beat the eggs well, pour them into the wok, and fry until they become a scrambled bhurji-style egg mixture. Break the eggs into small to medium pieces, then transfer them to a plate and keep them aside.
 2. In the same wok, add 4 tablespoons oil. Add the sliced onion and fry until it starts changing color lightly.
 3. Add the grated cabbage and stir-fry on high flame for about 7 minutes. Do not leave the wok unattended; keep stirring continuously so the cabbage cooks evenly without burning.
 4. Add turmeric powder, black pepper powder, salt, and garam masala. If garam masala is not available, use noodles masala. Stir for 2 minutes, then reduce the flame.
-5. Add the boiled noodles. Increase the flame again and toss everything together for 1 minute.
-6. Add the tomato paste and stir for another minute. If you do not have tomato, or if you want a stronger taste, add 3 tablespoons soy sauce instead.
-7. Add the scrambled eggs back into the wok, mix gently, and switch off the stove.
+5. Add the scrambled eggs back into the wok and mix them well with the masala.
+6. Add the boiled noodles. Increase the flame again and toss everything together for 1 minute.
+7. Add the tomato paste and stir for another minute. If you do not have tomato, or if you want a stronger taste, add 3 tablespoons soy sauce instead. Mix gently and switch off the stove.
 
 ## Jothi's Kitchen Note
 
