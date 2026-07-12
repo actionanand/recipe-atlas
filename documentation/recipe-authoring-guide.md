@@ -238,7 +238,7 @@ src/content/recipes/en/egg-masala-noodles.md
 Title used:
 
 ```text
-Tamil: ஆரோக்கிய முட்டை மசாலா நூடுல்ஸ்
+Tamil: ஆரோக்கியமான முட்டை மசாலா நூடுல்ஸ்
 English: Wholesome Egg Masala Noodles
 ```
 
