@@ -1,8 +1,8 @@
 ---
-title: Homestyle Chicken Masala Noodles
-translationKey: homestyle-chicken-masala-noodles
-slug: homestyle-chicken-masala-noodles
-summary: A filling chicken noodles recipe with boneless chicken, scrambled eggs, optional vegetables, tomato paste, and warm masala, made without artificial colors.
+title: Street Style Chicken Masala Noodels
+translationKey: street-style-chicken-masala-noodels
+slug: street-style-chicken-masala-noodels
+summary: A street-style chicken masala noodels recipe with fried boneless chicken, scrambled eggs, optional vegetables, tomato paste, and bold wok-fried flavor.
 category: non-veg
 tags:
   - noodles
@@ -89,7 +89,7 @@ ingredients:
   - group: Finish
     name: Big tomato
     quantity: 1
-    note: Ground into paste; optional for chicken noodles
+    note: Ground into paste; optional for chicken noodels
   - group: Optional
     name: Soy sauce
     quantity: 3
@@ -100,37 +100,37 @@ nutrition:
   vegetables: Onion, cabbage, carrot, and capsicum when used
 ---
 
-This chicken masala noodles recipe follows the same homestyle idea as the egg masala noodles, but with small boneless chicken pieces added for a more filling meal. The taste is warm, simple, and family-friendly, with no artificial colors added.
+Street Style Chicken Masala Noodels is a bold, filling wok recipe for days when you want something hot, colorful, and satisfying at home. Small boneless chicken pieces are fried first, then tossed with eggs, cabbage, masala, and boiled noodels so every bite has chicken flavor.
 
-For the chicken, I prefer Kashmiri red chilli powder ground at the mill because it gives a beautiful natural red color. Since Kashmiri chilli powder is usually mild, add a little regular chilli powder too if you want more spice. Frying the chicken is your choice, but I like to fry it separately first so the pieces stay tasty when mixed with the noodles.
+I do not add artificial colors. For the red color, I prefer Kashmiri red chilli powder ground at the mill. It gives a nice color without making the dish too spicy, so add a little regular chilli powder along with it if you want proper heat.
 
 This quantity serves two adults with a good appetite, or about three kids.
 
-{% recipeImage "CHICKEN_NOODLES", "Homestyle chicken masala noodles served hot", "Chicken masala noodles with fried chicken, scrambled eggs, optional carrot and capsicum, tomato paste, and warm masala." %}
+{% recipeImage "CHICKEN_NOODLES", "Street style chicken masala noodels served hot", "Street style chicken masala noodels with fried chicken, scrambled eggs, optional carrot and capsicum, tomato paste, and masala." %}
 
 ## Before You Start
 
-Boil the noodles first with a little salt, drain them, and keep them ready. Do not overcook them. Soft but firm noodles toss better in the wok and will not become sticky.
+Boil the noodels first with a little salt, drain them, and keep them ready. Do not overcook them. Soft but firm noodels toss better in the wok and will not become sticky.
 
-Cut the boneless chicken into small pieces. Keep the carrot and capsicum ready only if you want vegetables in the noodles; both are optional.
+Cut the boneless chicken into small pieces. If you want vegetables, cut one small carrot, or half of a big carrot, into medium long pieces. Cut one-fourth of a green capsicum in the same style. If you prefer only chicken and egg, skip the carrot and capsicum.
 
 ## Method
 
-1. Marinate the chicken pieces with Kashmiri red chilli powder, regular chilli powder, and salt. Fry the chicken until cooked and lightly roasted, then keep it aside.
+1. Mix the chicken pieces with Kashmiri red chilli powder, regular chilli powder, and salt. Fry the chicken until it is cooked well and lightly roasted. Keep it aside.
 2. Heat 1 tablespoon oil in a wok. Beat the eggs well, pour them into the wok, and fry until they become a scrambled bhurji-style egg mixture. Break the eggs into small pieces, then transfer them to a plate and keep them aside.
 3. In the same wok, add 4 tablespoons oil. Add the sliced onion and fry until it starts changing color lightly.
 4. Add the grated cabbage and stir-fry on high flame for about 7 minutes. Stay near the wok and keep stirring continuously so the cabbage cooks evenly without burning.
 5. Add turmeric powder, black pepper powder, salt, and garam masala. If garam masala is not available, use noodles masala. Stir for 2 minutes, then reduce the flame.
-6. Add the carrot and capsicum if using them. Stir-fry until they soften slightly but still keep a little bite. If you do not want vegetables, skip this step.
-7. Add the scrambled eggs back into the wok and mix them well with the masala. Some people prefer adding the eggs before the onion and cabbage, but the eggs may disappear into the vegetables; both methods taste good.
-8. Add the boiled noodles. Increase the flame again and toss everything together for 1 minute.
-9. Add the fried chicken and stir well so the pieces spread through the noodles.
+6. Add the carrot and capsicum if using them. Stir-fry until they soften slightly but still keep a little bite. Skip this step if you do not want vegetables.
+7. Add the scrambled eggs back into the wok and mix them with the masala. If eggs are added before the onion and cabbage, they may blend into the vegetables; adding them now keeps the egg pieces more visible.
+8. Add the boiled noodels. Increase the flame again and toss everything together for 1 minute.
+9. Add the fried chicken and stir well so the pieces spread through the noodels.
 10. Add the tomato paste and stir for another minute. If you do not have tomato, or if you want a stronger taste, add 3 tablespoons soy sauce instead. Mix gently and switch off the stove.
 
 ## Jothi's Kitchen Note
 
-For chicken noodles, tomato paste is optional. Use it when you want a softer homestyle taste. Skip it, or use soy sauce instead, when you want a stronger street-style flavor.
+Tomato paste is optional for chicken noodels. Use it when you want a softer homestyle finish. Skip it, or use soy sauce instead, when you want a stronger street-style flavor.
 
 ## Serve
 
-Serve these chicken noodles hot as a quick dinner, weekend lunch, or after-school meal for children. If serving kids, reduce the regular chilli powder and let the Kashmiri chilli powder give the color.
+Serve hot immediately after tossing. For kids, reduce the regular chilli powder and let Kashmiri chilli powder give the color. For adults, keep the wok flame high at the end so the noodels get that quick street-style finish.
