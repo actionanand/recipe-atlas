@@ -302,13 +302,15 @@ const providerUrl = (provider, id, start = "") => {
 
 const embedUrl = (provider, id, start = "", muted = false) => {
   const params = new URLSearchParams();
-  params.set("enablejsapi", "1");
   params.set("rel", "0");
   if (start) params.set("start", start);
   if (muted) params.set("mute", "1");
 
   if (provider === "youtube" || provider === "youtube-short") {
-    return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${params.toString()}`;
+    params.set("enablejsapi", "1");
+    params.set("origin", window.location.origin);
+    params.set("widget_referrer", window.location.href);
+    return `https://www.youtube.com/embed/${encodeURIComponent(id)}?${params.toString()}`;
   }
   if (provider === "instagram") return `https://www.instagram.com/p/${encodeURIComponent(id)}/embed`;
   return "";
@@ -323,7 +325,7 @@ const loadEmbed = (container, options = {}) => {
   const src = embedUrl(provider, id, start, options.muted);
 
   if (!src) return;
-  container.innerHTML = `<iframe loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="${title.replaceAll('"', "&quot;")}" src="${src}"></iframe>`;
+  container.innerHTML = `<iframe loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="${title.replaceAll('"', "&quot;")}" src="${src}"></iframe>`;
   container.dataset.loaded = "true";
   return container.querySelector("iframe");
 };
@@ -384,7 +386,7 @@ const openFloatingPlayer = (resource) => {
         <span class="material-symbols-rounded" aria-hidden="true">close</span>
       </button>
     </div>
-    <iframe loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="${escapeHtmlValue(iframe.title || container.dataset.title || "Video")}" src="${escapeHtmlValue(iframe.getAttribute("src") || "")}"></iframe>
+    <iframe loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="${escapeHtmlValue(iframe.title || container.dataset.title || "Video")}" src="${escapeHtmlValue(iframe.getAttribute("src") || "")}"></iframe>
   `;
   document.body.append(shell);
   shell.querySelector("[data-close-floating-player]")?.addEventListener("click", () => shell.remove());

@@ -42,7 +42,10 @@ function buildSocialImageRegistry() {
     if (!dataImage) continue;
 
     const fileName = socialImageName(key, dataImage.mimeType);
-    writeFileSync(`${GENERATED_IMAGE_DIR}/${fileName}`, Buffer.from(dataImage.base64, "base64"));
+    const outputPath = `${GENERATED_IMAGE_DIR}/${fileName}`;
+    if (!existsSync(outputPath)) {
+      writeFileSync(outputPath, Buffer.from(dataImage.base64, "base64"));
+    }
     socialImages[key] = `/assets/images/${fileName}`;
   }
 
